@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Correção de Slugify</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      try {
+        // 1. Atualiza todos os elementos que possuem ID: força para lowercase
+        var elementsWithId = document.querySelectorAll("[id]");
+        elementsWithId.forEach(function(el) {
+          var originalId = el.getAttribute("id");
+          var normalizedId = originalId.toLowerCase();
+          // Se o id normalizado não existir ainda, atualiza para evitar duplicidade
+          if (originalId !== normalizedId && !document.getElementById(normalizedId)) {
+            el.setAttribute("id", normalizedId);
+          }
+        });
+  
+        // 2. Atualiza os links internos (com classe 'internal-link')
+        // para que o fragmento (parte após o "#") seja convertido para lowercase,
+        // garantindo que ele aponte para o id correto
+        var links = document.querySelectorAll("a.internal-link");
+        links.forEach(function(link) {
+          function updateAttribute(attrName) {
+            var attrValue = link.getAttribute(attrName);
+            if (attrValue && attrValue.indexOf("#") !== -1) {
+              var parts = attrValue.split("#");
+              // Aplica a transformação: lowercase (e, se necessário, outras regras podem ser adicionadas)
+              var normalizedFragment = parts[1].toLowerCase();
+              // Se houver mudança, atualiza o atributo
+              if (parts[1] !== normalizedFragment) {
+                link.setAttribute(attrName, parts[0] + "#" + normalizedFragment);
+              }
+            }
+          }
+          updateAttribute("href");
+          updateAttribute("data-href");
+        });
+      } catch (e) {
+        console.error("Erro ao aplicar correção do slugify:", e);
+      }
+    });
+  </script>
+</head>
+<body>
+  <!-- O conteúdo exportado do Obsidian será carregado aqui -->
+</body>
+</html>
