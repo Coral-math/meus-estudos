@@ -1,40 +1,40 @@
-
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    try {
-      // 1. Atualiza todos os elementos que possuem ID: força para lowercase
-      var elementsWithId = document.querySelectorAll("[id]");
-      elementsWithId.forEach(function(el) {
-        var originalId = el.getAttribute("id");
-        var normalizedId = originalId.toLowerCase();
-        // Se o id normalizado não existir ainda, atualiza para evitar duplicidade
-        if (originalId !== normalizedId && !document.getElementById(normalizedId)) {
-          el.setAttribute("id", normalizedId);
-        }
-      });
+    // Função para normalizar o fragmento: lowercase e remoção de "?" 
+    // (adicione outras remoções se necessário)
+    function normalizeFragment(fragment) {
+      return fragment.toLowerCase().replace(/\?/g, "");
+    }
 
-      // 2. Atualiza os links internos (com classe 'internal-link')
-      // para que o fragmento (parte após o "#") seja convertido para lowercase,
-      // garantindo que ele aponte para o id correto
-      var links = document.querySelectorAll("a.internal-link");
-      links.forEach(function(link) {
-        function updateAttribute(attrName) {
-          var attrValue = link.getAttribute(attrName);
-          if (attrValue && attrValue.indexOf("#") !== -1) {
-            var parts = attrValue.split("#");
-            // Aplica a transformação: lowercase (e, se necessário, outras regras podem ser adicionadas)
-            var normalizedFragment = parts[1].toLowerCase();
-            // Se houver mudança, atualiza o atributo
-            if (parts[1] !== normalizedFragment) {
-              link.setAttribute(attrName, parts[0] + "#" + normalizedFragment);
-            }
+    // Atualiza os links internos: ajusta os atributos href e data-href
+    var links = document.querySelectorAll("a.internal-link");
+    links.forEach(function(link) {
+      function updateAttr(attrName) {
+        var value = link.getAttribute(attrName);
+        if (value && value.indexOf("#") !== -1) {
+          var parts = value.split("#");
+          var fragment = parts[1];
+          var normalized = normalizeFragment(fragment);
+          if (fragment !== normalized) {
+            link.setAttribute(attrName, parts[0] + "#" + normalized);
           }
         }
-        updateAttribute("href");
-        updateAttribute("data-href");
-      });
-    } catch (e) {
-      console.error("Erro ao aplicar correção do slugify:", e);
+      }
+      updateAttr("href");
+      updateAttr("data-href");
+    });
+
+    // Ao carregar a página, se houver um fragmento na URL, tenta encontrar o elemento correspondente.
+    if (window.location.hash) {
+      // Obtém o hash (sem o "#")
+      var rawHash = window.location.hash.substring(1);
+      // Normaliza o hash para que seja compatível com o id gerado
+      var normalizedHash = normalizeFragment(rawHash);
+      var target = document.getElementById(normalizedHash);
+      if (target) {
+        // Caso o elemento seja encontrado, rola até ele de forma suave
+        target.scrollIntoView({behavior: "smooth"});
+      }
     }
   });
 </script>
