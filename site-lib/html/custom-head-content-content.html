@@ -1,40 +1,65 @@
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Função para normalizar o fragmento: lowercase e remoção de "?" 
-    // (adicione outras remoções se necessário)
-    function normalizeFragment(fragment) {
-      return fragment.toLowerCase().replace(/\?/g, "");
-    }
-
-    // Atualiza os links internos: ajusta os atributos href e data-href
-    var links = document.querySelectorAll("a.internal-link");
-    links.forEach(function(link) {
-      function updateAttr(attrName) {
-        var value = link.getAttribute(attrName);
-        if (value && value.indexOf("#") !== -1) {
-          var parts = value.split("#");
-          var fragment = parts[1];
-          var normalized = normalizeFragment(fragment);
-          if (fragment !== normalized) {
-            link.setAttribute(attrName, parts[0] + "#" + normalized);
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Correção de Navegação Interna</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Função para normalizar fragmentos: converte para lowercase e remove o "?".
+      function normalizeFragment(fragment) {
+        return fragment.toLowerCase().replace(/\?/g, "");
+      }
+      
+      // Intercepta cliques em links com a classe "internal-link"
+      var internalLinks = document.querySelectorAll("a.internal-link");
+      internalLinks.forEach(function(link) {
+        link.addEventListener("click", function(e) {
+          // Cria objetos URL para comparar o destino com a URL atual.
+          var destination = new URL(link.href, window.location.origin);
+          var current = new URL(window.location.href);
+  
+          // Se a navegação for para a mesma página...
+          if (destination.pathname === current.pathname) {
+            e.preventDefault();  // Impede a ação padrão do link.
+            // Extrai o fragmento (parte após "#") e o normaliza.
+            var rawHash = destination.hash.substring(1);
+            var normalizedHash = normalizeFragment(rawHash);
+            // Procura o elemento destino utilizando o ID normalizado.
+            var target = document.getElementById(normalizedHash);
+            if (!target) {
+              // Caso não encontre, tenta com o hash original (como fallback).
+              target = document.getElementById(rawHash);
+            }
+            if (target) {
+              // Realiza o scroll suave até o elemento.
+              target.scrollIntoView({ behavior: "smooth" });
+              // Atualiza a URL (sem recarregar a página) para refletir o fragmento.
+              history.replaceState(null, null, '#' + normalizedHash);
+            }
           }
-        }
+          // Caso seja uma navegação para outra página, permite a ação padrão.
+        });
+      });
+      
+      // Ao carregar a página, se houver um hash na URL, tenta realizar o scroll.
+      if (window.location.hash) {
+        var rawHash = window.location.hash.substring(1);
+        var normalizedHash = normalizeFragment(rawHash);
+        // Pequeno delay para garantir que o conteúdo já esteja renderizado.
+        setTimeout(function() {
+          var target = document.getElementById(normalizedHash);
+          if (!target) {
+            target = document.getElementById(rawHash);
+          }
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
       }
-      updateAttr("href");
-      updateAttr("data-href");
     });
-
-    // Ao carregar a página, se houver um fragmento na URL, tenta encontrar o elemento correspondente.
-    if (window.location.hash) {
-      // Obtém o hash (sem o "#")
-      var rawHash = window.location.hash.substring(1);
-      // Normaliza o hash para que seja compatível com o id gerado
-      var normalizedHash = normalizeFragment(rawHash);
-      var target = document.getElementById(normalizedHash);
-      if (target) {
-        // Caso o elemento seja encontrado, rola até ele de forma suave
-        target.scrollIntoView({behavior: "smooth"});
-      }
-    }
-  });
-</script>
+  </script>
+</head>
+<body>
+  <!-- O conteúdo exportado do Obsidian é carregado aqui -->
+</body>
+</html>
