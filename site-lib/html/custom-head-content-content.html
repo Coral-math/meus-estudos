@@ -4,12 +4,29 @@
 
 <script>
   (function(){
-    // Verifica se a URL já contém o parâmetro "noCache".
-    if (window.location.search.indexOf('noCache=') === -1) {
-      // Adiciona um parâmetro com timestamp para forçar a busca de nova versão.
+    // Se a URL não contém o parâmetro 'reloaded', adiciona-o e força o reload.
+    if (window.location.search.indexOf('reloaded=1') === -1) {
       var separator = window.location.href.indexOf('?') === -1 ? '?' : '&';
-      var newUrl = window.location.href + separator + 'noCache=' + new Date().getTime();
-      window.location.replace(newUrl);
+      window.location.replace(window.location.href + separator + 'reloaded=1');
     }
   })();
+
+  // Se a página for carregada do back‑forward cache, força o reload.
+  window.addEventListener('pageshow', function(event) {
+      if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+          window.location.reload();
+      }
+  });
+
+  // Desativa o back‑forward cache.
+  window.onunload = function(){};
+
+  // Se houver algum service worker registrado, desregistrá-lo para evitar cache persistente.
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          registrations.forEach(function(registration) {
+              registration.unregister();
+          });
+      });
+  }
 </script>
