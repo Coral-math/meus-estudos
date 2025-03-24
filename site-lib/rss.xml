@@ -1,4 +1,4 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Meu-caderno]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>site-lib/media/favicon.png</url><title>Meu-caderno</title><link/></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Mon, 24 Mar 2025 22:20:56 GMT</lastBuildDate><atom:link href="site-lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Mon, 24 Mar 2025 22:20:53 GMT</pubDate><ttl>60</ttl><dc:creator/><item><title><![CDATA[3. Guia de provas]]></title><description><![CDATA[
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Meu-caderno]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>site-lib/media/favicon.png</url><title>Meu-caderno</title><link/></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Mon, 24 Mar 2025 22:28:02 GMT</lastBuildDate><atom:link href="site-lib/rss.xml" rel="self" type="application/rss+xml"/><pubDate>Mon, 24 Mar 2025 22:27:58 GMT</pubDate><ttl>60</ttl><dc:creator/><item><title><![CDATA[3. Guia de provas]]></title><description><![CDATA[
 Organize os Itens:
 Na semana anterior, liste tudo o que precisará levar. No dia anterior, separe os itens para evitar contratempos.
 Relaxamento Prévio:
@@ -22,24 +22,7 @@ Atenção às alternativas opostas. É comum quando há duas alternativas que s�
 Cuidado com conteúdos estranhos sobre os quais você nunca ouviu falar. Se você estudou suficiente o assunto e você se depara com algum conteúdo do qual nunca ouviu falar, a tendência é que essa alternativa esteja incorreta.
 Preste atenção nas alternativas com conteúdos similares. No geral, se há alternativas muito semelhantes, é provável que alguma delas esteja correta (datas por exemplo, se há duas alternativas com datas muito próximas, é provável que uma delas seja a correta).
 Alternativas corretas costumam ter um conteúdo bem claro para não gerar discussão. Para evitar questões anuladas ou discussões se a resposta está correta ou não, as respostas tendem a ser objetivas e claras, então evite respostas amplas ou que são discutíveis.
-]]></description><link>estudos/3.-guia-de-provas.html</link><guid isPermaLink="false">Estudos/3. Guia de provas.md</guid><pubDate>Mon, 24 Mar 2025 22:20:21 GMT</pubDate></item><item><title><![CDATA[2. Guia de estudos]]></title><description><![CDATA[
-Leitura e Anotações:
-Escreva palavras-chaves enquanto lê/escuta o conteúdo, logo após o fim da leitura/aula, escreva resumos objetivos com suas próprias palavras.
-Resumos e Autoexplicação:
-Após resumir os conceitos principais, tente explicá-los em voz alta ou para outra pessoa (ou para si). Isso solidifica o aprendizado e deixa claro quando algo não foi entendido.
-Resolução de Questões:
-Pratique. Muito. Faça o máximo de exercícios e questões de provas antigas. Questões difíceis devem ser transformadas em flashcards para revisões futuras. Inicie pelos Assuntos Mais Difíceis:
-Comece o estudo pelos tópicos que demandam mais esforço. O começo é quando você está com mais energia, isso facilita um pouco entender assuntos dificeis.
-Intercale Temas:
-Intercalar assuntos diferentes evita a fadiga mental e o tédio, mas procure não misturar conteúdos que são muito semelhantes (como Matemática e Física). Conexão de Conceitos:
-Relacione novos conteúdos com conhecimentos prévios. Quanto mais conexões, mais fácil a memorização.
-Mnemônicas e Analogias:
-Crie músicas, rimas, metáforas ou imagens mentais que ajudem a fixar fórmulas, regras e conceitos.
-Flashcards e Revisão Espaçada:
-Utilize aplicativos como Anki para revisar conceitos periodicamente. Faça perguntas diretas e objetivas.
-Revisão Ativa e Autoexplicação:
-Em vez de apenas reler resumos ou rever aulas, explique os conceitos que está tentando revisar para si mesmo ou para outra pessoa, vai ficar claro se há algo que você não aprendeu o não lembra nessa hora.
-]]></description><link>estudos/2.-guia-de-estudos.html</link><guid isPermaLink="false">Estudos/2. Guia de estudos.md</guid><pubDate>Mon, 24 Mar 2025 22:20:19 GMT</pubDate></item><item><title><![CDATA[1. Pré-estudos]]></title><description><![CDATA[
+]]></description><link>estudos/3.-guia-de-provas.html</link><guid isPermaLink="false">Estudos/3. Guia de provas.md</guid><pubDate>Mon, 24 Mar 2025 22:27:47 GMT</pubDate></item><item><title><![CDATA[1. Pré-estudos]]></title><description><![CDATA[
 Carga horária progressiva:
 Comece com uma carga horária que permita manter a concentração sem se sobrecarregar. Aumente gradativamente até encontrar o equilíbrio ideal.
 Qualidade do sono:
@@ -69,7 +52,24 @@ Pausas e Descanso:
 Se sentir cansaço excessivo, permita-se um breve cochilo e retome os estudos com mais energia.
 Cafeína e Música:
 Teste a influência do café ou da música (lo-fi, por exemplo) no seu foco. Cada pessoa reage de forma diferente, então adapte conforme sua experiência.
-]]></description><link>estudos/1.-pré-estudos.html</link><guid isPermaLink="false">Estudos/1. Pré-estudos.md</guid><pubDate>Mon, 24 Mar 2025 22:20:17 GMT</pubDate></item><item><title><![CDATA[Vivi-notes]]></title><description><![CDATA[Me chamo Coraline Vitória, atualmente estou focada em me preparar para a faculdade de Matemática e esse é meu jardim digital 😊.Você encontrará por aqui minhas anotações, guias e resumos que me ajudam a aprender melhor. Se quiser ver meus repositórios, pode visitar meu <a data-tooltip-position="top" aria-label="https://github.com/Coral-math" rel="noopener nofollow" class="external-link is-unresolved" href="https://github.com/Coral-math" target="_self">GitHub</a>.
+]]></description><link>estudos/1.-pré-estudos.html</link><guid isPermaLink="false">Estudos/1. Pré-estudos.md</guid><pubDate>Mon, 24 Mar 2025 22:27:44 GMT</pubDate></item><item><title><![CDATA[2. Guia de estudos]]></title><description><![CDATA[
+Leitura e Anotações:
+Escreva palavras-chaves enquanto lê/escuta o conteúdo, logo após o fim da leitura/aula, escreva resumos objetivos com suas próprias palavras.
+Resumos e Autoexplicação:
+Após resumir os conceitos principais, tente explicá-los em voz alta ou para outra pessoa (ou para si). Isso solidifica o aprendizado e deixa claro quando algo não foi entendido.
+Resolução de Questões:
+Pratique. Muito. Faça o máximo de exercícios e questões de provas antigas. Questões difíceis devem ser transformadas em flashcards para revisões futuras. Inicie pelos Assuntos Mais Difíceis:
+Comece o estudo pelos tópicos que demandam mais esforço. O começo é quando você está com mais energia, isso facilita um pouco entender assuntos dificeis.
+Intercale Temas:
+Intercalar assuntos diferentes evita a fadiga mental e o tédio, mas procure não misturar conteúdos que são muito semelhantes (como Matemática e Física). Conexão de Conceitos:
+Relacione novos conteúdos com conhecimentos prévios. Quanto mais conexões, mais fácil a memorização.
+Mnemônicas e Analogias:
+Crie músicas, rimas, metáforas ou imagens mentais que ajudem a fixar fórmulas, regras e conceitos.
+Flashcards e Revisão Espaçada:
+Utilize aplicativos como Anki para revisar conceitos periodicamente. Faça perguntas diretas e objetivas.
+Revisão Ativa e Autoexplicação:
+Em vez de apenas reler resumos ou rever aulas, explique os conceitos que está tentando revisar para si mesmo ou para outra pessoa, vai ficar claro se há algo que você não aprendeu o não lembra nessa hora.
+]]></description><link>estudos/2.-guia-de-estudos.html</link><guid isPermaLink="false">Estudos/2. Guia de estudos.md</guid><pubDate>Mon, 24 Mar 2025 22:27:41 GMT</pubDate></item><item><title><![CDATA[Vivi-notes]]></title><description><![CDATA[Me chamo Coraline Vitória, atualmente estou focada em me preparar para a faculdade de Matemática e esse é meu jardim digital 😊.Você encontrará por aqui minhas anotações, guias e resumos que me ajudam a aprender melhor. Se quiser ver meus repositórios, pode visitar meu <a data-tooltip-position="top" aria-label="https://github.com/Coral-math" rel="noopener nofollow" class="external-link is-unresolved" href="https://github.com/Coral-math" target="_self">GitHub</a>.
 Matemática desde o Fundamental: Notas completas de todo ensino fundamental (1° ao 5° ano), além de temas mais avançados para o Enem.
 Enem Detalhado: Incidência de temas, lista de assuntos por matéria e minhas estratégias de estudo.
 Guia de Estudos: Planejamento e técnicas eficazes para aprender mais e melhor (baseados nos livros "Aprendendo a aprender" e "Você não sabe estudar").

@@ -3,11 +3,13 @@
 <meta http-equiv="Expires" content="0">
 
 <script>
-  // Quando a página for carregada a partir do cache (ex.: navegação "back/forward"),
-  // força um reload para garantir que a versão mais recente seja exibida.
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted) {
-      window.location.reload();
+  (function(){
+    // Verifica se a URL já contém o parâmetro "noCache".
+    if (window.location.search.indexOf('noCache=') === -1) {
+      // Adiciona um parâmetro com timestamp para forçar a busca de nova versão.
+      var separator = window.location.href.indexOf('?') === -1 ? '?' : '&';
+      var newUrl = window.location.href + separator + 'noCache=' + new Date().getTime();
+      window.location.replace(newUrl);
     }
-  });
+  })();
 </script>
