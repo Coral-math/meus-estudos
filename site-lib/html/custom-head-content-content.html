@@ -1,15 +1,13 @@
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const links = document.querySelectorAll("link[rel='stylesheet'], script[src]");
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 
-    links.forEach(link => {
-      let url = new URL(link.href || link.src, window.location.origin);
-      url.searchParams.set("v", Date.now()); // Adiciona um timestamp único
-      if (link.href) {
-        link.href = url.href;
-      } else {
-        link.src = url.href;
-      }
-    });
+<script>
+  // Quando a página for carregada a partir do cache (ex.: navegação "back/forward"),
+  // força um reload para garantir que a versão mais recente seja exibida.
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      window.location.reload();
+    }
   });
 </script>
