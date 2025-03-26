@@ -1,7 +1,9 @@
+<!-- Metatags para controle de cache e recarregamento -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 
+<!-- Bloco único de estilos -->
 <style>
   /* ================= VISUALIZAÇÃO (Preview) ================= */
   .markdown-preview-view h1 { font-size: 2em; }
@@ -12,95 +14,104 @@
   .markdown-preview-view h6 { font-size: 1em; }
 
   /* ================= TÍTULO EMBUTIDO ================= */
-  /* Ajusta o título embutido dentro do header */
-  .header .page-title {
-    font-size: 2.2em;  /* ajuste conforme necessário */
-    margin: 0;        /* remove margens extras */
-    padding: 0.2em 0;  /* ajuste o padding se necessário */
+  /* Força o estilo do título (h1) com classes page-title, heading, inline-title */
+  .header h1.page-title.heading.inline-title {
+    font-size: 2.2em !important;  /* Ajuste conforme necessário */
+    margin: 0 !important;         /* Remove margens extras, se desejar */
+    padding: 0.2em 0 !important;  /* Ajuste o padding conforme desejar */
   }
-  /* Ajusta o container do header */
+
+  /* Ajuste do container do header */
   .header {
     margin: 0;
     padding: 0.5em 0;
   }
+
   /* Ajusta o espaçamento do data-bar, se necessário */
   .header .data-bar {
     margin-top: 0.5em;
   }
 </style>
 
+<!-- Bloco único de script -->
 <script>
-  (function() {
-    // Controle de cache e reload
-    if (window.location.search.indexOf('reloaded=1') === -1) {
-      var separator = window.location.href.indexOf('?') === -1 ? '?' : '&';
-      window.location.replace(window.location.href + separator + 'reloaded=1');
+(function() {
+  // Se a URL não contém o parâmetro 'reloaded', adiciona-o e força o reload.
+  if (window.location.search.indexOf('reloaded=1') === -1) {
+    var separator = window.location.href.indexOf('?') === -1 ? '?' : '&';
+    window.location.replace(window.location.href + separator + 'reloaded=1');
+  }
+
+  // Se a página for carregada do back-forward cache, força o reload.
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+      window.location.reload();
     }
-    window.addEventListener('pageshow', function(event) {
-      if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
-        window.location.reload();
-      }
-    });
-    window.onunload = function(){};
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        registrations.forEach(function(registration) {
-          registration.unregister();
-        });
+  });
+
+  // Desativa o back-forward cache.
+  window.onunload = function(){};
+
+  // Se houver algum service worker registrado, desregistrá-lo para evitar cache persistente.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      registrations.forEach(function(registration) {
+        registration.unregister();
       });
-    }
-
-    // Flag para garantir que os eventos só sejam processados quando o canvas estiver carregado
-    let isCanvasLoaded = false;
-
-    // Função para limitar (clamp) os valores a um mínimo (por exemplo, 0.001)
-    function clampValue(val, min = 0.001) {
-      return (val < min) ? min : val;
-    }
-
-    // Monkey patch no setAttribute de elementos SVG, para evitar valores negativos em <pattern>
-    const originalSetAttribute = SVGElement.prototype.setAttribute;
-    SVGElement.prototype.setAttribute = function(name, value) {
-      if (this.tagName.toLowerCase() === 'pattern' && (name === 'width' || name === 'height')) {
-        const num = parseFloat(value);
-        if (num < 0) {
-          console.warn(`Clamping negative value for ${name}: ${num} → ${clampValue(num)}`);
-          value = clampValue(num).toString();
-        }
-      }
-      originalSetAttribute.call(this, name, value);
-    };
-
-    // Se existir uma função global de atualização de zoom (por exemplo, updateScale), impede a execução até o canvas estar carregado.
-    if (typeof window.updateScale === 'function') {
-      const originalUpdateScale = window.updateScale;
-      window.updateScale = function() {
-        if (!isCanvasLoaded) return;
-        originalUpdateScale.apply(this, arguments);
-      };
-    }
-
-    // Marca o canvas como carregado após o DOM estar pronto.
-    document.addEventListener('DOMContentLoaded', function() {
-      isCanvasLoaded = true;
     });
+  }
 
-    // Função debounce para reduzir chamadas excessivas em eventos (opcional)
-    function debounce(func, wait) {
-      let timeout;
-      return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-      };
+  // Flag para garantir que os eventos de zoom só sejam processados após o canvas estar carregado
+  let isCanvasLoaded = false;
+
+  // Função para limitar (clamp) os valores a um mínimo (por exemplo, 0.001)
+  function clampValue(val, min = 0.001) {
+    return (val < min) ? min : val;
+  }
+
+  // Monkey patch em setAttribute de elementos SVG para impedir valores negativos em <pattern>
+  const originalSetAttribute = SVGElement.prototype.setAttribute;
+  SVGElement.prototype.setAttribute = function(name, value) {
+    if (this.tagName.toLowerCase() === 'pattern' && (name === 'width' || name === 'height')) {
+      const num = parseFloat(value);
+      if (num < 0) {
+        console.warn(`Clamping negative value for ${name}: ${num} → ${clampValue(num)}`);
+        value = clampValue(num).toString();
+      }
     }
+    return originalSetAttribute.call(this, name, value);
+  };
 
-    // Exemplo opcional de debounce em um evento de zoom (descomente se necessário)
-    /*
-    document.querySelector('.canvas').addEventListener('wheel', debounce(function(e) {
-      let newScale = calculateNewScale(e); // função hipotética para calcular o novo scale
-      newScale = clampValue(newScale);
-      applyScale(newScale); // função hipotética para aplicar o novo scale
-    }, 50));
-    */
-  })();
+  // Se existir uma função global de atualização de zoom (ex: updateScale), impede a execução até o canvas estar carregado
+  if (typeof window.updateScale === 'function') {
+    const originalUpdateScale = window.updateScale;
+    window.updateScale = function() {
+      if (!isCanvasLoaded) return;
+      originalUpdateScale.apply(this, arguments);
+    };
+  }
+
+  // Marca o canvas como carregado após o DOM estar pronto
+  document.addEventListener('DOMContentLoaded', function() {
+    isCanvasLoaded = true;
+  });
+
+  // Função debounce para reduzir chamadas excessivas em eventos de zoom (opcional)
+  function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+
+  // Exemplo opcional de debounce em evento de zoom (substitua 'wheel' e funções conforme necessário)
+  /*
+  document.querySelector('.canvas').addEventListener('wheel', debounce(function(e) {
+    let newScale = calculateNewScale(e); // Função hipotética para calcular o novo scale
+    newScale = clampValue(newScale);
+    applyScale(newScale); // Função hipotética para aplicar o novo scale
+  }, 50));
+  */
+})();
 </script>
