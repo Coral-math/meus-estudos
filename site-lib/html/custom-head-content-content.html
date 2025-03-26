@@ -1,3 +1,4 @@
+<!-- Bloco de código existente permanece inalterado -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -32,7 +33,7 @@
 </script>
 
 <style>
-  /* =============== VISUALIZAÇÃO (Preview) =============== */
+  /* ================= VISUALIZAÇÃO (Preview) ================= */
   .markdown-preview-view h1 { font-size: 2em; }
   .markdown-preview-view h2 { font-size: 1.75em; }
   .markdown-preview-view h3 { font-size: 1.5em; }
@@ -40,60 +41,129 @@
   .markdown-preview-view h5 { font-size: 1.1em; }
   .markdown-preview-view h6 { font-size: 1em; }
 
-  /* =============== EDIÇÃO (Live Preview / Legacy) =============== */
-  /* Aplica a formatação dos títulos no modo edição de forma consistente com o preview */
+  /* ================= EDIÇÃO (Live Preview / Legacy) ================= */
   .markdown-source-view .cm-h1,
   .markdown-source-view .cm-heading-level-1,
   .markdown-source-view .HyperMD-header-1,
-  .markdown-source-view .cm-header-1 {
-    font-size: 2em;
-  }
+  .markdown-source-view .cm-header-1 { font-size: 2em; }
 
   .markdown-source-view .cm-h2,
   .markdown-source-view .cm-heading-level-2,
   .markdown-source-view .HyperMD-header-2,
-  .markdown-source-view .cm-header-2 {
-    font-size: 1.75em;
-  }
+  .markdown-source-view .cm-header-2 { font-size: 1.75em; }
 
   .markdown-source-view .cm-h3,
   .markdown-source-view .cm-heading-level-3,
   .markdown-source-view .HyperMD-header-3,
-  .markdown-source-view .cm-header-3 {
-    font-size: 1.5em;
-  }
+  .markdown-source-view .cm-header-3 { font-size: 1.5em; }
 
   .markdown-source-view .cm-h4,
   .markdown-source-view .cm-heading-level-4,
   .markdown-source-view .HyperMD-header-4,
-  .markdown-source-view .cm-header-4 {
-    font-size: 1.25em;
-  }
+  .markdown-source-view .cm-header-4 { font-size: 1.25em; }
 
   .markdown-source-view .cm-h5,
   .markdown-source-view .cm-heading-level-5,
   .markdown-source-view .HyperMD-header-5,
-  .markdown-source-view .cm-header-5 {
-    font-size: 1.1em;
-  }
+  .markdown-source-view .cm-header-5 { font-size: 1.1em; }
 
   .markdown-source-view .cm-h6,
   .markdown-source-view .cm-heading-level-6,
   .markdown-source-view .HyperMD-header-6,
-  .markdown-source-view .cm-header-6 {
-    font-size: 1em;
-  }
+  .markdown-source-view .cm-header-6 { font-size: 1em; }
 
-  /* Garante que os títulos inline no modo edição herdem o tamanho correto */
   .markdown-source-view .cm-line span.cm-header,
-  .markdown-source-view .cm-content .cm-header {
-    font-size: inherit;
-  }
+  .markdown-source-view .cm-content .cm-header { font-size: inherit; }
 
-  /* =============== TÍTULO EMBUTIDO ACIMA DO TEXTO =============== */
+  /* ================= TÍTULO EMBUTIDO ACIMA DO TEXTO ================= */
   .markdown-source-view .inline-title,
-  .workspace-leaf-content .inline-title {
-    font-size: 2.2em;
+  .workspace-leaf-content .inline-title { font-size: 2.2em; }
+</style>
+
+<!-- NOVO BLOCO DE SCRIPT PARA CORREÇÃO DO ZOOM DO CANVAS E VALIDAÇÃO DOS ATRIBUTOS -->
+<script>
+  (function() {
+    // Flag para garantir que os eventos só sejam processados quando o canvas estiver carregado
+    let isCanvasLoaded = false;
+
+    // Função para limitar (clamp) os valores a um mínimo (por exemplo, 0.001)
+    function clampValue(val, min = 0.001) {
+      return (val < min) ? min : val;
+    }
+
+    // Monkey patch no setAttribute de elementos SVG, para evitar valores negativos em pattern
+    const originalSetAttribute = SVGElement.prototype.setAttribute;
+    SVGElement.prototype.setAttribute = function(name, value) {
+      if (this.tagName.toLowerCase() === 'pattern' && (name === 'width' || name === 'height')) {
+        const num = parseFloat(value);
+        if (num < 0) {
+          console.warn(`Clamping negative value for ${name}: ${num} → ${clampValue(num)}`);
+          value = clampValue(num).toString();
+        }
+      }
+      originalSetAttribute.call(this, name, value);
+    };
+
+    // Supondo que a função de atualização de escala seja "updateScale", interceptamos-a para aplicar a validação.
+    const originalUpdateScale = window.updateScale;
+    if (typeof originalUpdateScale === 'function') {
+      window.updateScale = function() {
+        if (!isCanvasLoaded) {
+          // Impede que a função seja executada enquanto o canvas não estiver totalmente carregado.
+          return;
+        }
+        originalUpdateScale.apply(this, arguments);
+      };
+    }
+
+    // Marca o canvas como carregado após o DOM estar pronto.
+    document.addEventListener('DOMContentLoaded', function() {
+      isCanvasLoaded = true;
+    });
+
+    // Função debounce para reduzir chamadas excessivas em eventos de zoom
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    // Exemplo opcional: aplicar debounce a um evento de zoom (substitua 'wheel' e funções conforme necessário)
+    /*
+    document.querySelector('.canvas').addEventListener('wheel', debounce(function(e) {
+      let newScale = calculateNewScale(e); // função hipotética para calcular o novo scale
+      newScale = clampValue(newScale);
+      applyScale(newScale); // função hipotética para aplicar o novo scale
+    }, 50));
+    */
+  })();
+</script>
+
+<!-- NOVO BLOCO DE ESTILOS PARA AJUSTAR O TÍTULO EMBUTIDO E OS ESPAÇAMENTOS DOS HEADINGS -->
+<style>
+  /* Ajusta o título embutido dentro do header */
+  .header .page-title {
+    font-size: 2.2em; /* ajuste conforme necessário */
+    margin: 0;       /* remove margens extras */
+    padding: 0.2em 0; /* ajuste o padding se necessário */
   }
 
+  /* Reduz o espaçamento vertical dos headings em geral */
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  /* Ajusta o container do header */
+  .header {
+    margin: 0;
+    padding: 0.5em 0;
+  }
+
+  /* Ajusta o espaçamento do data-bar, se necessário */
+  .header .data-bar {
+    margin-top: 0.5em;
+  }
 </style>
