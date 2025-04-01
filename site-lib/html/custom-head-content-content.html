@@ -60,58 +60,5 @@
       });
     });
   }
-
-  // Flag para garantir que os eventos de zoom só sejam processados após o canvas estar carregado
-  let isCanvasLoaded = false;
-
-  // Função para limitar (clamp) os valores a um mínimo (por exemplo, 0.001)
-  function clampValue(val, min = 0.001) {
-    return (val < min) ? min : val;
-  }
-
-  // Monkey patch em setAttribute de elementos SVG para impedir valores negativos em <pattern>
-  const originalSetAttribute = SVGElement.prototype.setAttribute;
-  SVGElement.prototype.setAttribute = function(name, value) {
-    if (this.tagName.toLowerCase() === 'pattern' && (name === 'width' || name === 'height')) {
-      const num = parseFloat(value);
-      if (num < 0) {
-        console.warn(`Clamping negative value for ${name}: ${num} → ${clampValue(num)}`);
-        value = clampValue(num).toString();
-      }
-    }
-    return originalSetAttribute.call(this, name, value);
-  };
-
-  // Se existir uma função global de atualização de zoom (ex: updateScale), impede a execução até o canvas estar carregado
-  if (typeof window.updateScale === 'function') {
-    const originalUpdateScale = window.updateScale;
-    window.updateScale = function() {
-      if (!isCanvasLoaded) return;
-      originalUpdateScale.apply(this, arguments);
-    };
-  }
-
-  // Marca o canvas como carregado após o DOM estar pronto
-  document.addEventListener('DOMContentLoaded', function() {
-    isCanvasLoaded = true;
-  });
-
-  // Função debounce para reduzir chamadas excessivas em eventos de zoom (opcional)
-  function debounce(func, wait) {
-    let timeout;
-    return function(...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
-    };
-  }
-
-  // Exemplo opcional de debounce em evento de zoom (substitua 'wheel' e funções conforme necessário)
-  /*
-  document.querySelector('.canvas').addEventListener('wheel', debounce(function(e) {
-    let newScale = calculateNewScale(e); // Função hipotética para calcular o novo scale
-    newScale = clampValue(newScale);
-    applyScale(newScale); // Função hipotética para aplicar o novo scale
-  }, 50));
-  */
 })();
 </script>
